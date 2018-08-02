@@ -32,7 +32,7 @@
       <AppSidebar fixed>
         <SidebarHeader/>
         <SidebarForm/>
-        <SidebarNav :navItems="nav"></SidebarNav>
+        <SidebarNav :navItems="navItems"></SidebarNav>
         <SidebarFooter/>
         <SidebarMinimizer/>
       </AppSidebar>
@@ -62,7 +62,7 @@
 </template>
 
 <script>
-import nav from '@/_nav'
+import SampleEnvironmentData from '@/sampledata'
 import { Header as AppHeader, SidebarToggler, Sidebar as AppSidebar, SidebarFooter, SidebarForm, SidebarHeader, SidebarMinimizer, SidebarNav, Aside as AppAside, AsideToggler, Footer as TheFooter, Breadcrumb } from '@coreui/vue'
 import DefaultAside from './DefaultAside'
 import DefaultHeaderDropdownAccnt from './DefaultHeaderDropdownAccnt'
@@ -87,7 +87,7 @@ export default {
   },
   data () {
     return {
-      nav: nav.items
+      environments: SampleEnvironmentData.environments 
     }
   },
   computed: {
@@ -96,6 +96,26 @@ export default {
     },
     list () {
       return this.$route.matched.filter((route) => route.name || route.meta.label )
+    },
+    homeItem: () => ({
+      name: 'Home',
+      url: '/',
+      icon: 'icon-home'
+    }),
+    environmentHeader: () => ({
+      title: true,
+      name: 'Environments',
+      class: '',
+      wrapper: {
+        element: '',
+        attributes: {}
+      }
+    }),
+    environmentItems () {
+      return this.environments.map(env => ({"name": env.name, "url": "/environment/" + env.id, "icon": 'icon-speedometer'}))
+    },
+    navItems () {
+      return [this.homeItem, this.environmentHeader, ...this.environmentItems]
     }
   }
 }

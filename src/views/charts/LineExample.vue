@@ -9,20 +9,27 @@ export default {
     CustomTooltips
   },
   extends: Line,
-  mounted () {
-    this.renderChart(
+  watch: {
+    '$route' (to, from) {
+      this.onMounted()
+    }
+  },
+  methods: {
+    randomData: () => Array.from({length: 7}, () => Math.floor(Math.random() * 100)),
+    onMounted () {
+      this.renderChart(
       {
         labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
         datasets: [
           {
             label: 'Data One',
             backgroundColor: hexToRgba('#E46651', 90),
-            data: [30, 39, 10, 50, 30, 70, 35]
+            data: this.randomData()
           },
           {
             label: 'Data Two',
             backgroundColor: hexToRgba('#00D8FF', 90),
-            data: [39, 80, 40, 35, 40, 20, 45]
+            data: this.randomData()
           }
         ]
       },
@@ -43,6 +50,8 @@ export default {
         }
       }
     )
-  }
+    }
+  },
+  mounted () { this.onMounted() }
 }
 </script>
